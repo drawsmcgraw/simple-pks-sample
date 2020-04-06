@@ -1,0 +1,18 @@
+# Fill your values in this file.
+# No variables are optional. You must specify everything in here.
+
+# All resources will have this prepended to their name
+environment_name = ""
+
+access_key = ""
+secret_key = ""
+
+region = ""
+availability_zones = ["us-east-2a", "us-east-2b", "us-east-2c"]
+
+opsman_keypair = ""
+
+# See list of AMI IDs here: 
+# https://network.pivotal.io/products/ops-manager/
+opsman_ami = ""
+
