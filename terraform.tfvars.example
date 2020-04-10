@@ -16,3 +16,14 @@ opsman_keypair = ""
 # https://network.pivotal.io/products/ops-manager/
 opsman_ami = ""
 
+# UUID Tags. In order for k8s masters to create ELBs on your behalf when creating k8s services
+# of type 'LoadBalancer', the public subnets must be tagged with the UUID of the respective k8s cluster.
+# These values are added as tags via the file 'subnets.tf'.
+# For more details, see https://docs.pivotal.io/pks/1-5/deploy-workloads.html#aws
+# Uncomment and replace these entries with UUIDs that correspond to your k8s cluster (found by using the
+# 'pks cluster <cluster-name>' command).
+#k8s_uuids = {
+#    "kubernetes.io/cluster/service-instance_085ab36a-9003-426b-a9f6-c919495fd993" = ""
+#    "kubernetes.io/cluster/service-instance_2b33c2e6-0d68-4ca4-af48-0485b1cea3b7" = ""
+#    "kubernetes.io/cluster/service-instance_35eb6349-725d-4c1b-a909-b5422fb9079e" = ""
+#}
