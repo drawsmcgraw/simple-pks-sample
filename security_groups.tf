@@ -12,6 +12,14 @@ resource "aws_security_group" "platform" {
     to_port     = 0
   }
 
+  # To allow kubectl to interact with k8s masters
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port = 8443
+    protocol = "tcp"
+    to_port = 8443
+  }
+
   egress {
     cidr_blocks = ["0.0.0.0/0"]
     protocol    = "-1"
