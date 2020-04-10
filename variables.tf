@@ -56,3 +56,9 @@ variable "tags" {
   default     = {}
   type        = map(string)
 }
+
+variable "k8s_uuids" {
+  description = "UUIDs of each workload k8s cluster created via PKS. Required if creating k8s services and you want EBLs created for you. "
+  default = {}
+  type = map(string)
+}

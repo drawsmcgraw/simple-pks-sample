@@ -1,6 +1,8 @@
 
+#
 # We're not necessarily deploying TAS but we still need this security group
 # for the Bosh director.
+#
 resource "aws_security_group" "platform" {
   name   = "${var.environment_name}-platform-vms-sg"
   vpc_id = aws_vpc.vpc.id
@@ -32,7 +34,9 @@ resource "aws_security_group" "platform" {
     { "Name" = "${var.environment_name}-platform-vms-sg" },
   )
 }
-
+#
+# NAT instances/gateways
+#
 resource "aws_security_group" "nat" {
   name   = "${var.environment_name}-nat-sg"
   vpc_id = aws_vpc.vpc.id
@@ -59,6 +63,9 @@ resource "aws_security_group" "nat" {
   )
 }
 
+#
+# Ops Manager
+#
 resource "aws_security_group" "ops-manager" {
   name   = "${var.environment_name}-ops-manager-sg"
   vpc_id = aws_vpc.vpc.id
@@ -111,7 +118,9 @@ resource "aws_security_group" "ops-manager" {
   )
 }
 
-# Allow all PKS components to talk to each other.
+#
+# k8s workloads
+#
 resource "aws_security_group" "pks-internal-sg" {
   name        = "${var.environment_name}-pks-internal"
   description = "PKS Internal Security Group"
@@ -151,7 +160,9 @@ resource "aws_security_group" "pks-internal-sg" {
   )
 }
 
-# This secgroup will be open to the Internet.
+#
+# PKS API server
+#
 resource "aws_security_group" "pks-api-lb" {
   name        = "${var.environment_name}-pks-api-lb-sg"
   description = "PKS API LB Security Group"
