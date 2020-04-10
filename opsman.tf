@@ -1,3 +1,7 @@
+#
+# Ops Manager VM plus requisite IAM resources
+#
+
 resource "aws_instance" "ops-manager" {
   ami = var.opsman_ami
   instance_type = "t2.large"
