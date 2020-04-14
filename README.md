@@ -28,3 +28,7 @@ For simplicity, the diagram only shows a single AZ's worth of resources.
 
 # Docs
 For a light walkthrough of a successful PKS deployment, see the [Docs](docs/README.md) section.
+
+# Let's Just Go!
+
+For the impatient, simply fill out the [providers.tf](provider.tf) file and create your own terraform.tfvars, then init, plan, and apply.
