@@ -12,8 +12,19 @@ be adapted to your custom environment but it is not meant to be an enduring effo
 What you can expect from this repo:
 * Paving of IaaS, including creation of VPC, subnets, route tables, security groups, IAM instance profiles and load 
 balancers.
-* Deploying Ops Manager into your public subnet.
+* Deploying Ops Manager VM into your public subnet.
 
 What this repo does not do for you:
 * Configuration/Deployment of the Bosh Director
 * Specific configuration of the PKS tile (though we do provide some general guidance).
+
+# Architecture
+A breif overview of _what_ we're deploying can be found below.
+
+![Basic AWS Architecture](images/pks-in-aws-simple-diagram.png)
+
+Your deployment will use three Availability Zones (and thus, three Public subnets ans three Private subnets).
+For simplicity, the diagram only shows a single AZ's worth of resources.
+
+# Docs
+For a light walkthrough of a successful PKS deployment, see the [Docs](docs/README.md) section.
