@@ -12,7 +12,10 @@ install manual, but rather a collection of common tasks, typical pitfalls, and h
 * A server certificate for the PKS API server. If you're using a development installation, using the self-signed option in Ops Manager is fine.
 
 ## Pave IaaS and install Ops Manager
-Copy `terraform.tfvars.example` to your own `terraform.tfvars` and fill in the values. Init, plan, and run.
+Copy `terraform.tfvars.example` to your own `terraform.tfvars` and fill in the values. 
+Fill out the `provider.yml` file with your AWS credentials. 
+
+Init, plan, and run.
 
 ```shell script
 terraform init
