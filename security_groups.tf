@@ -194,3 +194,94 @@ resource "aws_security_group" "pks-api-lb" {
     { "Name" = "${var.environment_name}-pks-api-lb-sg" },
   )
 }
+
+#
+# Security Group for:
+# - Bosh Director
+# - PKS API Server
+# - k8s master nodes
+# - k8s worker nodes
+#
+# Why? Because the security group ID we specify in the Bosh Director config tile in Ops Man
+# is the same security group ID that is used when we deploy all the other VMs. The only way
+# around this is to use VM extensions, which have two problems:
+# 1) They complicate operations because they're only configurable in yaml files (i.e. not via Ops Man)
+# 2) Even with a VM extension, you can only change the security group for the PKS API server. You cannot
+#    change the security group for the k8s master or workers.
+# Therefore, we avoid complexity by just having an overloaded security group.
+resource "aws_security_group" "pks-umbrella-sg" {
+  name        = "${var.environment_name}-pks-umbrella-sg"
+  description = "Secgroup for pks-api, k8s clusters, and Bosh Director"
+  vpc_id      = aws_vpc.vpc.id
+
+  #
+  # Bosh Director
+  #
+  ingress {
+    cidr_blocks = [aws_vpc.vpc.cidr_block]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
+  #
+  # PKS API
+  #
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 9021
+    to_port     = 9021
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "tcp"
+    from_port   = 8443
+    to_port     = 8443
+  }
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
+  #
+  # Internal k8s cluster traffic
+  #
+  ingress {
+    cidr_blocks = var.pks_subnet_cidrs
+    protocol    = "icmp"
+    from_port   = 0
+    to_port     = 0
+  }
+
+  ingress {
+    cidr_blocks = var.pks_subnet_cidrs
+    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 0
+  }
+
+  ingress {
+    cidr_blocks = var.pks_subnet_cidrs
+    protocol    = "udp"
+    from_port   = 0
+    to_port     = 0
+  }
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+  }
+
+
+  tags = merge(
+    var.tags,
+    { "Name" = "${var.environment_name}-pks-umbrella-sg" },
+  )
+}
