@@ -8,13 +8,19 @@ access_key = ""
 secret_key = ""
 
 region = ""
-availability_zones = ["us-east-2a", "us-east-2b", "us-east-2c"]
+availability_zones = ["us-east-2a", "us-east-2b"]
 
 opsman_keypair = ""
 
 # See list of AMI IDs here: 
 # https://network.pivotal.io/products/ops-manager/
 opsman_ami = ""
+
+
+# This is used in `lbs.tf` to make load balancers for each k8s cluster.
+#k8s_clusters = [
+# "dev-01"
+#]
 
 # UUID Tags. In order for k8s masters to create ELBs on your behalf when creating k8s services
 # of type 'LoadBalancer', the public subnets must be tagged with the UUID of the respective k8s cluster.

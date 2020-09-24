@@ -34,13 +34,13 @@ variable "availability_zones" {
 }
 
 variable "public_subnet_cidrs" {
-  default     = ["10.0.0.0/24", "10.0.1.0/24", "10.0.2.0/24"]
+  default     = ["10.0.0.0/24", "10.0.1.0/24"]
   description = "The list of CIDRs for the Public subnet. Number of CIDRs MUST match the number of AZs."
   type        = list
 }
 
 variable "pks_subnet_cidrs" {
-  default     = ["10.0.12.0/24", "10.0.13.0/24", "10.0.14.0/24"]
+  default     = ["10.0.12.0/24", "10.0.13.0/24"]
   description = "The list of CIDRs for the PKS subnet. Number of CIDRs MUST match the number of AZs."
   type        = list
 }
@@ -55,6 +55,13 @@ variable "tags" {
   description = "Key/value tags to assign to all resources."
   default     = {}
   type        = map(string)
+}
+
+variable "k8s_clusters" {
+  description = "Names of k8s clusters. Used for creation of load balancers"
+  default = []
+  type = set(string)
+
 }
 
 variable "k8s_uuids" {

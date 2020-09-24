@@ -107,14 +107,14 @@ resource "aws_lb_target_group" "pks-api-8443" {
 ###############################################################################################################
 # Manually creating an NLB for each k8s cluster becomes cumbersome. Using the below resources, we             #
 # create an NLB (and the Listener and the Target Group) for every k8s cluster that appears in the             #
-# variable 'k8s_uuids' in the file 'terraform.tfvars'.                                                        #
+# variable 'k8s_clusters' in the file 'terraform.tfvars'.                                                        #
 # To use the resources defined below, simply add the UUID for your k8s cluster to the 'k8s_uuids' variable    #
 # and re-run Terraform.                                                                                       #
 # NOTE: You still need to add the k8s master(s) to the Target Group yourself                                  #
 ###############################################################################################################
 #resource "aws_lb" "k8s-workload-cluster-nlb" {
-#  for_each = var.k8s_uuids
-#  name                             = "k8s-cluster-${split("-",split("_",each.key)[1])[0]}-nlb"  # Take the first block from the cluster's UUID because names cannot be longer than 32 characters
+#  for_each = var.k8s_clusters
+#  name                             = "${var.environment_name}-${each.key}-k8s-nlb"
 #  load_balancer_type               = "network"
 #  enable_cross_zone_load_balancing = true
 #  internal                         = false
@@ -122,7 +122,7 @@ resource "aws_lb_target_group" "pks-api-8443" {
 #}
 #
 #resource "aws_lb_listener" "k8s-workload-cluster-8443" {
-#  for_each = var.k8s_uuids
+#  for_each = var.k8s_clusters
 #  load_balancer_arn = aws_lb.k8s-workload-cluster-nlb[each.key].arn
 #  port              = 8443
 #  protocol          = "TCP"
@@ -134,8 +134,8 @@ resource "aws_lb_target_group" "pks-api-8443" {
 #}
 #
 #resource "aws_lb_target_group" "k8s-workload-cluster-8443" {
-#  for_each = var.k8s_uuids
-#  name     = "k8s-cluster-${split("-",split("_",each.key)[1])[0]}-tg"
+#  for_each = var.k8s_clusters
+#  name     = "${var.environment_name}-${each.key}-k8s-tg"
 #  port     = 8443
 #  protocol = "TCP"
 #  vpc_id   = aws_vpc.vpc.id
@@ -147,3 +147,6 @@ resource "aws_lb_target_group" "pks-api-8443" {
 #    protocol            = "TCP"
 #  }
 #}
+
+
+
