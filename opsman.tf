@@ -14,7 +14,7 @@ resource "aws_instance" "ops-manager" {
   }
 
   tags = {
-    Name = "pks-tp-opsman"
+    Name = "${var.environment_name}-opsman"
   }
 }
 
@@ -91,6 +91,9 @@ data "aws_iam_policy_document" "ops-manager" {
     resources = [
       "arn:aws:s3:::${var.environment_name}-ops-manager-bucket",
       "arn:aws:s3:::${var.environment_name}-ops-manager-bucket/*"
+      # Use these values for govcloud
+      #"arn:aws-us-gov:s3:::${var.environment_name}-ops-manager-bucket",
+      #"arn:aws-us-gov:s3:::${var.environment_name}-ops-manager-bucket/*"
     ]
   }
 
