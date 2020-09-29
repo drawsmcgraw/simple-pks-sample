@@ -114,7 +114,7 @@ resource "aws_lb_target_group" "pks-api-8443" {
 ###############################################################################################################
 #resource "aws_lb" "k8s-workload-cluster-nlb" {
 #  for_each = var.k8s_clusters
-#  name                             = "${var.environment_name}-${each.key}-k8s-nlb"
+#  name                             = "${each.key}-k8s-nlb"
 #  load_balancer_type               = "network"
 #  enable_cross_zone_load_balancing = true
 #  internal                         = false
