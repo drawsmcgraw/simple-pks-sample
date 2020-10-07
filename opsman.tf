@@ -1,4 +1,34 @@
 #
+# Jump Box
+#
+
+data "aws_ami" "amazon_linux" {
+  # Latest Amazon Linux 2
+  most_recent = true
+  name_regex = "^amzn2-ami-hvm-[0-9.]+-x86_64-ebs$"
+  owners = ["amazon"]
+}
+
+resource "aws_instance" "jump_box" {
+  ami                         = data.aws_ami.amazon_linux.id
+  instance_type               = "m4.large"
+  key_name                    = var.opsman_keypair
+  vpc_security_group_ids      = [aws_security_group.ops-manager.id]
+  subnet_id                   = aws_subnet.public-subnet[0].id
+
+  root_block_device {
+    volume_type = "gp2"
+    volume_size = 50
+  }
+
+  tags = {
+    "Name" = "jump-box"
+  }
+
+}
+
+
+#
 # Ops Manager VM plus requisite IAM resources
 #
 
